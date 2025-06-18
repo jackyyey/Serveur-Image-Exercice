@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Le serveur</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link href="https://cdn.jsdelivr.net/npm/bulma@1.0.3/css/bulma.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        .logo {
+            width: 60px;
+            margin-right: 15px;
+        }
+        .hero.is-primary {
+            background: linear-gradient(120deg, #00c6ff 0%, #0072ff 100%);
+        }
+        .box {
+            min-height: 270px;
+        }
+        footer {
+            background: #222;
+            color: #fff;
+            padding: 1.5rem 0;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        .mvc-list {
+            list-style: disc;
+            margin-left: 1.5rem;
+            text-align: left;
+        }
+        .mvc-list li {
+            margin-bottom: 0.5rem;
+            padding-left: 0.5rem;
+        }
+        .main-title {
+            color: #222;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+<!-- Hero section avec logo -->
+<section class="hero is-primary">
+    <div class="hero-body">
+        <div class="container is-flex is-align-items-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Logo" class="logo">
+            <div>
+                <h1 class="title">
+                    Bienvenue sur le serveur des exercices des cours d'application mobile
+                </h1>
+                <h2 class="subtitle">
+                    Incluant la documentation de l'API
+                </h2>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <div class="columns is-multiline">
+            <!-- Swagger -->
+            <div class="column is-one-half">
+                <div class="box has-text-centered">
+                    <span class="icon is-large has-text-info">
+                        <i class="fas fa-book fa-2x"></i>
+                    </span>
+                    <h2 class="subtitle mt-2">Documentation Swagger pour le serveur</h2>
+                    <a class="button is-link is-light mb-1" href="swagger-ui/index.html">
+                        <span class="icon"><i class="fas fa-file-alt"></i></span>
+                        <span>Page HTML</span>
+                    </a>
+                    <br>
+                    <a class="button is-info is-light mb-1" href="v3/api-docs">
+                        <span class="icon"><i class="fas fa-code"></i></span>
+                        <span>Fichier JSON</span>
+                    </a>
+                    <br>
+                    <a class="button is-info is-light" href="v3/api-docs.yaml">
+                        <span class="icon"><i class="fas fa-file-code"></i></span>
+                        <span>Fichier YAML</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <span>Exercices &copy; <span th:text="${T(java.time.Year).now()}">2024</span> &mdash; Réalisé avec <span class="icon has-text-danger"><i class="fas fa-heart"></i></span> et Bulma</span>
+</footer>
+</body>
+</html>
