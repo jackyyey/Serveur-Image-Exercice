@@ -1,23 +1,14 @@
 package org.depinfo.exercices.exos.controller;
 
 import jakarta.servlet.http.HttpSession;
-import org.depinfo.exercices.exos.model.*;
-import org.depinfo.exercices.exos.service.ServicePhoto;
-import org.imgscalr.Scalr;
+import org.depinfo.exercices.exos.dto.Requete;
+import org.depinfo.exercices.exos.dto.TropCourt;
+import org.depinfo.exercices.exos.dto.Truc;
+import org.depinfo.exercices.exos.dto.TrucAvecUneDate;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -34,16 +25,12 @@ import java.util.Random;
 @Controller
 public class WebServiceExos {
 
-    @Autowired
-    private ServicePhoto servicePhoto;
-
     @GetMapping(value = "/exos/waitaminute", produces = "text/plain")
     public @ResponseBody String attendUnPeu() throws InterruptedException {
         Thread.sleep(5000);
         return "TADA";
     }
 
-    // Simple valeur en arrivée et sortie
     @PostMapping("/exos/flottant/double")
     public @ResponseBody Float addOne(@RequestBody Float valeur) {
         return 2 * valeur;
@@ -65,7 +52,6 @@ public class WebServiceExos {
         }
         return t;
     }
-
 
     @PostMapping(value = "/exos/truc/doubler", produces = "application/json")
     public @ResponseBody Truc doubleLeTruc(@RequestBody Truc truc) {
@@ -101,53 +87,6 @@ public class WebServiceExos {
         return valeur;
     }
 
-    @GetMapping("/exos/image")
-    public ResponseEntity<byte[]> image(@RequestParam(value = "width", required = false) Integer maxWidth) throws IOException {
-        System.out.println("PHOTO : download request width " + maxWidth);
-        byte[] bytes = this.getClass().getClassLoader().getResourceAsStream("large.jpg").readAllBytes();
-        if (maxWidth == null) { // no resizing
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
-        } else {
-            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-            BufferedImage bi = ImageIO.read(bais);
-            BufferedImage resized = Scalr.resize(bi, Scalr.Method.SPEED, maxWidth);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(resized, "jpg", baos);
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(baos.toByteArray());
-        }
-    }
-
-    @PostMapping(value = "/exos/fileasmultipart", produces = "text/plain")
-    public ResponseEntity<String> up(@RequestParam("file") MultipartFile file, @RequestParam("babyID") Long babyID) throws IOException {
-        System.out.println("PHOTO : upload request " + file.getContentType());
-        return ResponseEntity.status(HttpStatus.OK).body("taille " + file.getBytes().length);
-    }
-
-    @PostMapping(value = "/file", produces = "text/plain")
-    public ResponseEntity<String> storePhoto(@RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println("PHOTO : upload request " + file.getContentType());
-        MPhoto p = servicePhoto.store(file);
-        return ResponseEntity.status(HttpStatus.OK).body(p.id.toString());
-    }
-
-    @GetMapping("/file/{id}")
-    public ResponseEntity<byte[]> taskPhoto(@PathVariable Long id, @RequestParam(required = false, name = "width") Integer maxWidth) throws IOException {
-        System.out.println("PHOTO : download request " + id + " width " + maxWidth);
-        MPhoto pic = servicePhoto.getFile(id);
-        if (maxWidth == null) { // no resizing
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(pic.blob);
-        } else {
-            ByteArrayInputStream bais = new ByteArrayInputStream(pic.blob);
-            BufferedImage bi = ImageIO.read(bais);
-            BufferedImage resized = Scalr.resize(bi, Scalr.Method.ULTRA_QUALITY, maxWidth);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(resized, "jpg", baos);
-            byte[] bytes = baos.toByteArray();
-            return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
-        }
-    }
-
     @GetMapping(value = "/exos/truc/list")
     public @ResponseBody List<Truc> getListe() throws InterruptedException {
         System.out.println("WS SOCIAL : list of trucs");
@@ -165,7 +104,6 @@ public class WebServiceExos {
         return res;
     }
 
-    // TODO error based on value sent
     @PostMapping(value = "/exos/error/or/not/", produces = "text/plain")
     public @ResponseBody String errorOrNot(@RequestBody Requete req) throws TropCourt {
         if (req.nom.length() < 5) throw new TropCourt();

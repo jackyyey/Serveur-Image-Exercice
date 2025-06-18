@@ -1,8 +1,8 @@
 package org.depinfo.exercices.exos.controller;
 
 import com.google.common.collect.Lists;
-import org.depinfo.exercices.exos.model.Film;
-import org.depinfo.exercices.exos.model.Nombre;
+import org.depinfo.exercices.exos.dto.Film;
+import org.depinfo.exercices.exos.dto.Nombre;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
