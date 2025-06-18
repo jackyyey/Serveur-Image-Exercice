@@ -21,7 +21,7 @@ import java.util.Random;
  */
 
 @Controller
-public class WebServiceIntra {
+public class WebServiceIntraController {
 
 	@GetMapping("/exam/{annee}/{mois}/{jour}")
 	public @ResponseBody List<Intra> addOne(

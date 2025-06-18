@@ -23,7 +23,7 @@ import java.util.Random;
  */
 
 @Controller
-public class WebServiceExos {
+public class WebServiceExosController {
 
     @GetMapping(value = "/exos/waitaminute", produces = "text/plain")
     public @ResponseBody String attendUnPeu() throws InterruptedException {
