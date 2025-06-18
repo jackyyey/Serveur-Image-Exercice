@@ -1,4 +1,4 @@
-package org.depinfo.exercices.exos;
+package org.depinfo.exercices.exos.model;
 
 public class Nombre {
 
